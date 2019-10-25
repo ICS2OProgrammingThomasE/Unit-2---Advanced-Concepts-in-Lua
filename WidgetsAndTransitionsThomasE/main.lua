@@ -1,20 +1,21 @@
 -----------------------------------------------------------------------------------------
 --
 -- main.lua
--- Created by: Your Name
--- Date: Month Day, Year
--- Description: This calls the splash screen of the app to load itself.
+-- Transitions Examples
+-- Created by Wal Wal
+-- Started November 14
+--
 -----------------------------------------------------------------------------------------
 
 -- Hiding Status Bar
--- HIDE THE STATUS BAR
-display.setStatusBar(display.HiddenStatusBar)
+display.setStatusBar( display.HiddenStatusBar )
+
 -----------------------------------------------------------------------------------------
 
--- Use composer library
+-- Calling composer library
 local composer = require( "composer" )
 
 -----------------------------------------------------------------------------------------
 
--- Go to the intro screen
-composer.gotoScene( "instructions" )
+-- Tansitioning to the menu screen
+composer.gotoScene( "main_menu" )
