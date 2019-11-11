@@ -89,7 +89,7 @@ local alreadyClickedAnswer = false
 local function DetermineAnswers()
     -- calculate the correct answer as well as the wrong answers
     answer = firstNumber + secondNumber
-    wrongAnswer1 = answer + math.random(1,4)
+    wrongAnswer1 = answer - math.random(1,4)
     wrongAnswer2 = answer + math.random(5,8)
 end
 
@@ -125,6 +125,10 @@ end
 -- Function that transitions to Lose Screen
 local function LoseScreenTransition( )        
     composer.gotoScene( "you_lose", {effect = "zoomInOutFade", time = 1000})
+end 
+-- Function that transitions to win Screen
+local function WinScreenTransition( )        
+    composer.gotoScene( "you_win", {effect = "zoomInOutFade", time = 1000})
 end 
 
 -- The function that displays the equation and determines the answer and the wrong answers
@@ -179,6 +183,10 @@ local function TouchListenerAnswer(touch)
             correct.isVisible = true
             -- increase the number correct by 1
             numberCorrect = numberCorrect + 1
+            --go to win screen
+            if (numberCorrect == 5) then
+                WinScreenTransition( )
+            end  
             -- call RestartScene after 1 second
             timer.performWithDelay( 1000, RestartScene )
         end        
