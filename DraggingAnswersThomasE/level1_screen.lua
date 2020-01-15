@@ -94,12 +94,10 @@ local function DisplayQuestion()
     answerboxAlreadyTouched = false
     alternateAnswerBox1AlreadyTouched = false
     alternateAnswerBox2AlreadyTouched = false
-
 end
 
 local function DetermineAlternateAnswers()    
 
-        
     -- generate incorrect answer and set it in the textbox
     alternateAnswer1 = correctAnswer + math.random(3, 5)
     alternateAnswerBox1.text = alternateAnswer1
@@ -115,8 +113,6 @@ local function DetermineAlternateAnswers()
     answerbox.x = display.contentWidth * 0.9
     alternateAnswerBox1.x = display.contentWidth * 0.9
     alternateAnswerBox2.x = display.contentWidth * 0.9
-
-
 end
 
 local function PositionAnswers()

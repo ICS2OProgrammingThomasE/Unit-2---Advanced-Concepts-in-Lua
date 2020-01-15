@@ -144,9 +144,7 @@ local function DisplayAddEquation()
     addEquationString = firstNumber .. " + " .. secondNumber .. " = " 
 
     -- displays text on text object
-    addEquationTextObject.text = addEquationString
-
-    
+    addEquationTextObject.text = addEquationString 
 end
 
 
