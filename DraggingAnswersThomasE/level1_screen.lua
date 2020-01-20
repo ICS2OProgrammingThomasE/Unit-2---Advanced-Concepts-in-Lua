@@ -33,6 +33,10 @@ local soccerball
 
 --the text that displays the question
 local questionText 
+local points = 0
+local lives = 3
+local pointsText
+local livesText
 
 --the alternate numbers randomly generated
 local correctAnswer
@@ -73,6 +77,14 @@ local booSound
 -- LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
 
+local function gotoyouwin()
+    composer.gotoScene( "you_win")
+end
+
+local function gotoyoulose()
+    composer.gotoScene("you_lose")
+end
+
 local function DisplayQuestion()
     local randomNumber1
     local randomNumber2
@@ -99,11 +111,11 @@ end
 local function DetermineAlternateAnswers()    
 
     -- generate incorrect answer and set it in the textbox
-    alternateAnswer1 = correctAnswer + math.random(3, 5)
+    alternateAnswer1 = correctAnswer + math.random(3, 10)
     alternateAnswerBox1.text = alternateAnswer1
 
     -- generate incorrect answer and set it in the textbox
-    alternateAnswer2 = correctAnswer - math.random(1, 2)
+    alternateAnswer2 = correctAnswer - math.random(1, 5)
     alternateAnswerBox2.text = alternateAnswer2
 
 -------------------------------------------------------------------------------------------
@@ -180,14 +192,32 @@ end
 
 -- Function to Restart Level 1
 local function RestartLevel1()
+    wrong.isVisible = false
+    correct.isVisible = false
     DisplayQuestion()
     DetermineAlternateAnswers()
     PositionAnswers()    
 end
 
 -- Function to Check User Input
-local function CheckUserAnswerInput()
-          
+local function CorrectUserInput()
+    correct.isVisible = true
+    points = points + 1 
+    pointsText.text = "points ==" .. points
+    if (points == 3) then
+        gotoyouwin()
+    end
+    
+    timer.performWithDelay(1600, RestartLevel1) 
+end
+
+local function IncorrectUserInput()
+    wrong.isVisible = true
+    lives = lives - 1
+    livesText.text = "lives ==" .. lives
+    if (lives == 0) then
+        gotoyoulose()
+    end
     timer.performWithDelay(1600, RestartLevel1) 
 end
 
@@ -224,7 +254,7 @@ local function TouchListenerAnswerbox(touch)
                 userAnswer = correctAnswer
 
                 -- call the function to check if the user's input is correct or not
-                CheckUserAnswerInput()
+                CorrectUserInput()
 
             --else make box go back to where it was
             else
@@ -264,7 +294,7 @@ local function TouchListenerAnswerBox1(touch)
                 userAnswer = alternateAnswer1
 
                 -- call the function to check if the user's input is correct or not
-                CheckUserAnswerInput()
+                IncorrectUserInput()
 
             --else make box go back to where it was
             else
@@ -303,7 +333,7 @@ local function TouchListenerAnswerBox2(touch)
                 userAnswer = alternateAnswer2
 
                 -- call the function to check if the user's input is correct or not
-                CheckUserAnswerInput()
+                IncorrectUserInput()
 
             --else make box go back to where it was
             else
@@ -380,11 +410,20 @@ function scene:create( event )
     alternateAnswerBox1PreviousX = display.contentWidth * 0.9
     alternateAnswerBox2PreviousX = display.contentWidth * 0.9
 
+    pointsText = display.newText( "points =" .. points, 900, 50, nil, 40)
+
+    livesText = display.newText( "lives =" .. lives, 100, 50, nil, 40)
 
     -- the black box where the user will drag the answer
     userAnswerBoxPlaceholder = display.newImageRect("Images/userAnswerBoxPlaceholder.png",  130, 130, 0, 0)
     userAnswerBoxPlaceholder.x = display.contentWidth * 0.6
     userAnswerBoxPlaceholder.y = display.contentHeight * 0.9
+
+    correct = display.newText( "correct!", 775, 425, nil, 40)
+    correct.isVisible = false
+
+    wrong = display.newText( "wrong!", 775, 425, nil, 40)
+    wrong.isVisible = false
 
     ----------------------------------------------------------------------------------
     --adding objects to the scene group
@@ -397,6 +436,9 @@ function scene:create( event )
     sceneGroup:insert( alternateAnswerBox1 )
     sceneGroup:insert( alternateAnswerBox2 )
     sceneGroup:insert( soccerball )
+    sceneGroup:insert( pointsText )
+    sceneGroup:insert( livesText )
+    sceneGroup:insert( correct )
 
 end --function scene:create( event )
 
